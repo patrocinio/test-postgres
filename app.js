@@ -4,7 +4,7 @@ var http = require("http")
 if (process.env.VCAP_SERVICES) {
   var env = JSON.parse(process.env.VCAP_SERVICES);
   console.log ("Environment: " + JSON.stringify(env))
-  var credentials = env['user-provided'][0]['credentials'];
+  var credentials = env['compose-postgresql-dedicated'][0]['credentials'];
 } else {
   var credentials = {"uri":"postgre://user:secret1@localhost:5433/db"}
 }
