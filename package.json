@@ -1,0 +1,7 @@
+{
+  "version":"1.0.0",
+  "scripts":{"start":"node app.js"},
+  "dependencies":{"pg":"*"},
+  "name":"hellopg",
+  "description":"This is a Bluemix demo"
+}

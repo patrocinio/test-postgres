@@ -1,18 +1,9 @@
 #/bin/bash
 # Inspired by https://hub.jazz.net/project/communitysample/postgresql-nodejs/overview
 
-DIR=/tmp/workspace-postgres
 APP_NAME=patrocinio-test-postgres
 
-mkdir -p $DIR
-cd $DIR
-
-# Clone the project
-rm -rf postgresql-nodejs
-git clone https://hub.jazz.net/git/patro/postgresql-nodejs
-
 # Push the application
-cd $DIR/postgresql-nodejs
 cf push $APP_NAME --no-start --random-route
 
 # Bind the app to the service
