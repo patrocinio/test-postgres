@@ -22,8 +22,10 @@ cf bs $APP_NAME $SERVICE_NAME
 # Start the app
 cf start $APP_NAME
 
+# Grab URL
+URL=`cf app $APP_NAME | grep urls | awk '{print $2}'`
+
 # Check response
-URL=$APP_NAME.mybluemix.net
 LINE=`wget --server-response --content-on-error=off ${URL} 2>&1 | grep HTTP`
 
 # Prints result
