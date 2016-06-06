@@ -1,7 +1,7 @@
 #/bin/bash
 # Inspired by https://hub.jazz.net/project/communitysample/postgresql-nodejs/overview
 
-DIR=~/workspace-postgres
+DIR=/tmp/workspace-postgres
 APP_NAME=patrocinio-test-postgres
 
 mkdir -p $DIR
