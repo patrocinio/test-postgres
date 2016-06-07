@@ -3,6 +3,21 @@
 
 APP_NAME=patrocinio-test-postgres
 
+# Parameters
+# $1: URL
+# $2: name
+check_url () {
+# Check response
+LINE=`wget --server-response --content-on-error=off ${URL} 2>&1 | grep HTTP`
+
+# Prints result
+if [[ "$LINE" == *"200"* ]]; then
+echo Postgres working great!
+else
+echo Postgres failed :-/
+fi
+}
+
 # Push the application
 cf push $APP_NAME --no-start --random-route
 
@@ -17,11 +32,4 @@ cf start $APP_NAME
 URL=`cf app $APP_NAME | grep urls | awk '{print $2}'`
 
 # Check response
-LINE=`wget --server-response --content-on-error=off ${URL} 2>&1 | grep HTTP`
-
-# Prints result
-if [[ "$LINE" == *"200"* ]]; then
-   echo Postgres working great!
-else
-    echo Postgres failed :-/
-fi
+check_url $URL "Postgres"
