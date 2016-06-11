@@ -1,0 +1,50 @@
+var pg = require("pg")
+var http = require("http")
+
+if (process.env.VCAP_SERVICES) {
+    // Define the path, as it varies in public and dedicated
+    var env = JSON.parse(process.env.VCAP_SERVICES);
+    console.log ("Environment: " + JSON.stringify(env))
+
+    var postgres = env['compose-postgresql-dedicated'];
+    if (postgres == null) {
+        postgres = env['user-provided']
+    }
+    var credentials = postgres[0]['credentials'];
+} else {
+  var credentials = {"uri":"postgre://user:secret1@localhost:5433/db"}
+}
+
+var port = (process.env.VCAP_APP_PORT || 1337);
+var host = (process.env.VCAP_APP_HOST || '0.0.0.0');
+
+function query(client, res, query) {
+    client.query(query, function(err, result) {
+                 if (err) {
+                 res.end("Error running query: " + err);
+                 }
+                 res.end("PG Time: " + result.rows[0].pgTime);
+                 });
+    
+}
+
+http.createServer(function(req, res) {
+  console.log ("credentials: " + JSON.stringify(credentials));
+  var client = new pg.Client(credentials.uri);
+  client.connect(function(err) {
+    if (err) {
+      res.end("Could not connect to postgre: " + err);
+    }
+    
+    console.log ("Querying...");
+    query(client, res, 'SELECT NOW() AS "pgTime"');
+                 
+    console.log ("Creating table...");
+    query(client, res, "CREATEXX TABLE MYTABLE (I INT NOT NULL)");
+                 
+    console.log ("Inserting...");
+    query(client, res, "INSERT INTO MYTABLE (I) VALUES (4455)");
+                 
+    client.end();
+  });
+}).listen(port, host);
