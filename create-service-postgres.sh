@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 # Inspired by https://hub.jazz.net/project/communitysample/postgresql-nodejs/overview
 if [ "$#" -ne 5 ]; then
   echo "Usage: $0 host port dbname user password"
