@@ -13,7 +13,8 @@ var port = (process.env.VCAP_APP_PORT || 1337);
 var host = (process.env.VCAP_APP_HOST || '0.0.0.0');
 
 http.createServer(function(req, res) {
-  var client = new pg.Client(credentials.uri);
+  console.log ("Connecting to " + credentials.public_hostname)
+  var client = new pg.Client(credentials.public_hostname);
   client.connect(function(err) {
     if (err) {
       res.end("Could not connect to postgre: " + err);
