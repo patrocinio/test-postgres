@@ -1,13 +1,13 @@
 #!/bin/bash
 # Inspired by https://hub.jazz.net/project/communitysample/postgresql-nodejs/overview
-if [ "$#" -ne 5 ]; then
-  echo "Usage: $0 host port dbname user password" 
+if [ "$#" -ne 7 ]; then
+  echo "Usage: $0 application service host port dbname user password"
   exit 1
 fi
 
-APP_NAME=patrocinio-test-postgres
-SERVICE_NAME=postgres
-URI=postgres:\/\/$4:$5\@$1:$2\/$3
+APP_NAME=$1
+SERVICE_NAME=$2
+URI=postgres:\/\/$6:$7\@$3:$4\/$5
 
 # Parameters
 # $1: app name
@@ -28,7 +28,7 @@ fi
 }
 
 #Create a JSON File
-echo "{\"public_hostname\":\"$URI\", \"user\": \"$4\", \"password\": \"$5\"}" > /tmp/new1.json
+echo "{\"public_hostname\":\"$URI\", \"user\": \"$6\", \"password\": \"$7\"}" > /tmp/new1.json
 
 # Update the service
 echo "Updating the service"
