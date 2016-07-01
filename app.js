@@ -4,10 +4,10 @@ var http = require("http")
 if (process.env.VCAP_SERVICES) {
   var env = JSON.parse(process.env.VCAP_SERVICES);
   console.log ("Environment: " + JSON.stringify(env))
-  if (env['user-provided']){
-      var credentials = env['user-provided'][0]['credentials'];
+  if (env['compose-postgresql-dedicated']){
+      var credentials = env['compose-postgresql-dedicated'][0]['credentials'];
     } else {
-       var credentials = env['compose-postgresql-dedicated'][0]['credentials'];
+       var credentials = env['user-provided'][0]['credentials'];
     }
 } else {
   var credentials = {"uri":"postgre://user:secret1@localhost:5433/db"}
@@ -17,12 +17,8 @@ var port = (process.env.VCAP_APP_PORT || 1337);
 var host = (process.env.VCAP_APP_HOST || '0.0.0.0');
 
 var server = http.createServer(function(req, res) {
-    console.log ("Connecting to " + credentials)
-    if (credentials.uri) {
-       var client = new pg.Client(credentials.uri);
-    } else {
-       var client = new pg.Client(credentials.public_hostname)
-    }
+    console.log ("Connecting to " + JSON.stringify(credentials))
+    var client = new pg.Client(credentials.credentials);
     client.connect(function(err) {
       if (err) {
         res.end("Could not connect to postgre: " + err);
