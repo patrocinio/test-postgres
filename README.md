@@ -9,11 +9,17 @@ Downloading this sample
 ---
 You can clone this sample by the following command: 
 
-    git clone https://hub.jazz.net/git/communitysample/postgresql-nodejs
+    git clone https://github.com/patrocinio/test-postgres
 
 
 
 
 Running this sample
 ---
-See the instructions in [Getting started with PostgreSQL Service](https://www.ng.bluemix.net/docs/#services/PostgreSQL/index.html#PostgreSQL).
+Create a user-defined service called postgres by running the following command:
+
+	create-service.sh postgres <Postgres Connection string>
+
+Then run the test:
+
+	test-postgres.sh
